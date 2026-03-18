@@ -40,7 +40,7 @@ export default function HeroSection() {
           >
             
             <br />
-            <span className="text-gradient">Wawa Portfolio x-8</span>
+            <span className="text-gradient">Wawa Portfolio X-8</span>
           </motion.h1>
 
           <motion.p
