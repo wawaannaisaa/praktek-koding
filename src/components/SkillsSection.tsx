@@ -1,23 +1,23 @@
 import { motion } from 'framer-motion';
 
 const skills = {
-  frontend: [
-    { name: 'HTML', level: 90 },
-    { name: 'CSS', level: 85 },
-    { name: 'JavaScript', level: 80 },
-    { name: 'Tailwind CSS', level: 80 },
-    { name: 'React', level: 70 },
+  IPA: [
+    { name: 'Biologi', level: 90 },
+    { name: 'Fisika', level: 85 },
+    { name: 'Kimia', level: 80 },
+    { name: 'Matematika', level: 80 },
   ],
-  backend: [
-    { name: 'Node.js', level: 70 },
-    { name: 'Express.js', level: 65 },
-    { name: 'MySQL', level: 70 },
+  IPS: [
+    { name: 'Ekonomi', level: 70 },
+    { name: 'Sejarah', level: 65 },
+    { name: 'Sosiologi', level: 70 },
+    { name: 'Geografi', level: 70 },
   ],
-  tools: [
-    { name: 'Git', level: 75 },
-    { name: 'GitHub', level: 80 },
-    { name: 'Figma', level: 70 },
-    { name: 'VS Code', level: 85 },
+  Agama: [
+    { name: 'Al-Quran Hadist', level: 75 },
+    { name: 'SKI', level: 80 },
+    { name: 'Fikih', level: 70 },
+    { name: 'Akidah AKhlak', level: 85 },
   ],
 };
 
@@ -81,7 +81,7 @@ export default function SkillsSection() {
               <h3 className="font-display text-xl font-bold">Frontend</h3>
             </div>
             <div className="space-y-4">
-              {skills.frontend.map((skill, index) => (
+              {skills.IPA.map((skill, index) => (
                 <SkillBar key={skill.name} {...skill} delay={index * 0.1} />
               ))}
             </div>
@@ -102,7 +102,7 @@ export default function SkillsSection() {
               <h3 className="font-display text-xl font-bold">Backend</h3>
             </div>
             <div className="space-y-4">
-              {skills.backend.map((skill, index) => (
+              {skills.IPS.map((skill, index) => (
                 <SkillBar key={skill.name} {...skill} delay={index * 0.1} />
               ))}
             </div>
@@ -123,7 +123,7 @@ export default function SkillsSection() {
               <h3 className="font-display text-xl font-bold">Tools &amp; Lainnya</h3>
             </div>
             <div className="space-y-4">
-              {skills.tools.map((skill, index) => (
+              {skills.Agama.map((skill, index) => (
                 <SkillBar key={skill.name} {...skill} delay={index * 0.1} />
               ))}
             </div>
