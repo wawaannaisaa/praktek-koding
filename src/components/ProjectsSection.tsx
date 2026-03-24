@@ -1,4 +1,11 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import biology from '../assets/biology.png.jpg'
+import hello from '../assets/hello kitty 1.png.png'
+import kelinci from '../assets/kelinci 1.png.jpg'
+import kucing from '../assets/kucing 1.png.jpg'
+import pink from '../assets/pink 1.png.jpg'
+import sertifikat from '../assets/sertifikat 1.png.jpg'
 import { ExternalLink, Github, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -7,7 +14,7 @@ const projects = [
     title: 'E-Commerce Platform',
     description: 'Platform e-commerce modern dengan fitur lengkap termasuk payment gateway, inventory management, dan analytics dashboard.',
     tags: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
-    image: '🛒',
+    image:[biology,hello,kelinci],
     color: 'from-blue-500/20 to-cyan-500/20',
     github: '#',
     demo: '#',
@@ -16,7 +23,7 @@ const projects = [
     title: 'Learning Management System',
     description: 'Platform pembelajaran online dengan video streaming, quiz interaktif, dan progress tracking.',
     tags: ['Next.js', 'TypeScript', 'MongoDB', 'WebRTC'],
-    image: '📚',
+    image:[hello,kelinci,biology],
     color: 'from-purple-500/20 to-pink-500/20',
     github: '#',
     demo: '#',
@@ -25,7 +32,7 @@ const projects = [
     title: 'Social Media Dashboard',
     description: 'Dashboard analytics untuk social media dengan real-time data visualization dan reporting.',
     tags: ['React', 'D3.js', 'Firebase', 'Tailwind'],
-    image: '📊',
+    image:[kelinci,biology,hello],
     color: 'from-orange-500/20 to-red-500/20',
     github: '#',
     demo: '#',
@@ -34,7 +41,7 @@ const projects = [
     title: 'AI Content Generator',
     description: 'Tool untuk generate konten menggunakan AI dengan integrasi berbagai model language.',
     tags: ['Python', 'FastAPI', 'OpenAI', 'React'],
-    image: '🤖',
+    image:[kucing,pink,sertifikat],
     color: 'from-green-500/20 to-teal-500/20',
     github: '#',
     demo: '#',
@@ -43,7 +50,7 @@ const projects = [
     title: 'Video Editing Tutorial',
     description: 'Seri tutorial video editing dengan 100+ episode dan 10k+ subscribers.',
     tags: ['Premiere Pro', 'After Effects', 'YouTube'],
-    image: '🎬',
+    image:[pink,sertifikat,kucing],
     color: 'from-red-500/20 to-orange-500/20',
     isContent: true,
     youtube: '#',
@@ -52,7 +59,7 @@ const projects = [
     title: 'Coding Tips & Tricks',
     description: 'Konten tips programming dan best practices untuk developer Indonesia.',
     tags: ['Instagram', 'TikTok', 'YouTube Shorts'],
-    image: '💡',
+    image:[sertifikat,kucing,pink],
     color: 'from-cyan-500/20 to-blue-500/20',
     isContent: true,
     youtube: '#',
@@ -60,9 +67,31 @@ const projects = [
 ];
 
 export default function ProjectsSection() {
+
+  // state untuk tiap project (pakai object biar independen)
+  const [currentIndexes, setCurrentIndexes] = useState({});
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndexes(prev => {
+        const updated = { ...prev };
+
+        projects.forEach((project, i) => {
+          const current = prev[i] || 0;
+          updated[i] = (current + 1) % project.image.length;
+        });
+
+        return updated;
+      });
+    }, 3000); // 3 detik
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="projects" className="py-20 md:py-32 bg-muted/30">
       <div className="container mx-auto px-4">
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -78,78 +107,89 @@ export default function ProjectsSection() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group"
-            >
-              <div className="h-full p-6 glass rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-2">
-                <div className={`aspect-video rounded-xl mb-4 flex items-center justify-center bg-gradient-to-br ${project.color}`}>
-                  <span className="text-6xl">{project.image}</span>
+          {projects.map((project, index) => {
+            const currentImageIndex = currentIndexes[index] || 0;
+
+            return (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group"
+              >
+                <div className="h-full p-6 glass rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-2">
+                  
+                  <div className={`aspect-video rounded-xl mb-4 overflow-hidden bg-gradient-to-br ${project.color}`}>
+                    <img
+                      src={project.image[currentImageIndex]}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-all duration-700 ease-in-out"
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      {project.isContent && (
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-primary/10 text-primary font-medium">
+                          Content
+                        </span>
+                      )}
+                      <h3 className="font-display text-lg font-bold group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-sm text-muted-foreground line-clamp-2">
+                      {project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2 py-1 text-xs rounded-md bg-secondary text-secondary-foreground"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex gap-2 pt-2">
+                      {project.github && (
+                        <Button variant="outline" size="sm" className="rounded-full" asChild>
+                          <a href={project.github}>
+                            <Github className="h-4 w-4 mr-1" />
+                            Code
+                          </a>
+                        </Button>
+                      )}
+                      {project.demo && (
+                        <Button size="sm" className="rounded-full" asChild>
+                          <a href={project.demo}>
+                            <ExternalLink className="h-4 w-4 mr-1" />
+                            Demo
+                          </a>
+                        </Button>
+                      )}
+                      {project.youtube && (
+                        <Button size="sm" className="rounded-full" asChild>
+                          <a href={project.youtube}>
+                            <Play className="h-4 w-4 mr-1" />
+                            Watch
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+
+                  </div>
                 </div>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    {project.isContent && (
-                      <span className="px-2 py-0.5 text-xs rounded-full bg-primary/10 text-primary font-medium">
-                        Content
-                      </span>
-                    )}
-                    <h3 className="font-display text-lg font-bold group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                  </div>
-                  
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {project.description}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 text-xs rounded-md bg-secondary text-secondary-foreground"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <div className="flex gap-2 pt-2">
-                    {project.github && (
-                      <Button variant="outline" size="sm" className="rounded-full" asChild>
-                        <a href={project.github}>
-                          <Github className="h-4 w-4 mr-1" />
-                          Code
-                        </a>
-                      </Button>
-                    )}
-                    {project.demo && (
-                      <Button size="sm" className="rounded-full" asChild>
-                        <a href={project.demo}>
-                          <ExternalLink className="h-4 w-4 mr-1" />
-                          Demo
-                        </a>
-                      </Button>
-                    )}
-                    {project.youtube && (
-                      <Button size="sm" className="rounded-full" asChild>
-                        <a href={project.youtube}>
-                          <Play className="h-4 w-4 mr-1" />
-                          Watch
-                        </a>
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
+
       </div>
     </section>
   );
