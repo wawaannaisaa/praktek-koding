@@ -1,26 +1,150 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
+    <link rel="icon" type="image/png" href="/favicon.png">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Wawa | Portfolio</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <title>Wawa | Portofolio</title>
+    <meta name="description" content="Portfolio Wawa - Web Developer" />
+    <meta name="author" content="Wawa" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <!-- GOOGLE TRANSLATE -->
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: 'id',
+            includedLanguages: 'en,id',
+          },
+          'google_translate_element'
+        );
+      }
+    </script>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <style>
+      /* HIDE GOOGLE UI */
+      .goog-te-banner-frame.skiptranslate {
+        display: none !important;
+      }
+      body {
+        top: 0px !important;
+      }
+      #google_translate_element {
+        display: none;
+      }
+
+      /* 🌐 PREMIUM TOGGLE */
+      #lang-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        transition: 0.3s;
+      }
+
+      #lang-toggle:hover {
+        transform: scale(1.08);
+      }
+
+      .flag {
+        font-size: 18px;
+      }
+
+      .switch {
+        width: 40px;
+        height: 20px;
+        background: #444;
+        border-radius: 999px;
+        position: relative;
+        transition: 0.3s;
+      }
+
+      .switch::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background: white;
+        border-radius: 50%;
+        top: 2px;
+        left: 2px;
+        transition: 0.3s;
+      }
+
+      .active .switch {
+        background: #6366f1;
+      }
+
+      .active .switch::after {
+        transform: translateX(20px);
+      }
+    </style>
   </head>
 
   <body>
+
+    <!-- GOOGLE HIDDEN -->
+    <div id="google_translate_element"></div>
+
+    <!-- 🔥 PREMIUM TOGGLE -->
+    <div id="lang-toggle">
+      <span class="flag">🇮🇩</span>
+      <div class="switch"></div>
+      <span class="flag">🇺🇸</span>
+    </div>
+
     <div id="root"></div>
+
+    <script>
+      let currentLang = localStorage.getItem("lang") || "id";
+
+      function applyLanguage(lang) {
+        const select = document.querySelector(".goog-te-combo");
+        if (!select) return;
+
+        select.value = lang;
+        select.dispatchEvent(new Event("change"));
+
+        localStorage.setItem("lang", lang);
+
+        const toggle = document.getElementById("lang-toggle");
+        if (lang === "en") {
+          toggle.classList.add("active");
+        } else {
+          toggle.classList.remove("active");
+        }
+      }
+
+      // WAIT GOOGLE LOAD
+      const interval = setInterval(() => {
+        const select = document.querySelector(".goog-te-combo");
+        if (select) {
+          applyLanguage(currentLang);
+          clearInterval(interval);
+        }
+      }, 500);
+
+      // CLICK EVENT
+      document.getElementById("lang-toggle").onclick = function () {
+        currentLang = currentLang === "id" ? "en" : "id";
+        applyLanguage(currentLang);
+      };
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
